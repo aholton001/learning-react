@@ -1,20 +1,22 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import Person from './Person/Person';
 
-class App extends Component {
-    state = {
+const app = props => {
+    const [ personState, setPersonsState ] = useState({
         persons: [
             {name: 'Moses', age: 24},
             {name: 'Christy', age: 24},
             {name: 'Andre', age: 23},
         ]
-    };
+    });
 
-    switchNameHandler = () => {
+    const [otherState, setOtherState] = useState("Some other value");
+
+    const switchNameHandler = () => {
         // console.log("Was clicked!");
         // DON'T DO THIS: this.state.persons[0].name = "Amoses"
-        this.setState({
+        setPersonsState({
             persons: [
                 {name: 'Amoses', age: 24},
                 {name: 'Christy', age: 24},
@@ -23,17 +25,15 @@ class App extends Component {
         })
     };
 
-  render() {
     return (
       <div className="App">
         <h1>Hi I'm Amoses</h1>
-        <button onClick={this.switchNameHandler}>Switch Name</button>
-        <Person name={this.state.persons[0].name} age={this.state.persons[0].age}/>
-        <Person name={this.state.persons[1].name} age={this.state.persons[1].age}> My hobbies, reading DSM-V</Person>
-        <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
+        <button onClick={switchNameHandler}>Switch Name</button>
+        <Person name={personState.persons[0].name} age={personState.persons[0].age}/>
+        <Person name={personState.persons[1].name} age={personState.persons[1].age}> My hobbies, reading DSM-V</Person>
+        <Person name={personState.persons[2].name} age={personState.persons[2].age}/>
       </div>
     );
-  }
-}
+};
 
-export default App;
+export default app;
