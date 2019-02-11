@@ -1,39 +1,57 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
 
-const app = props => {
-    const [ personState, setPersonsState ] = useState({
+class App extends Component {
+    state = {
         persons: [
             {name: 'Moses', age: 24},
             {name: 'Christy', age: 24},
             {name: 'Andre', age: 23},
         ]
-    });
+    };
 
-    const [otherState, setOtherState] = useState("Some other value");
-
-    const switchNameHandler = () => {
+    switchNameHandler = (newName) => {
         // console.log("Was clicked!");
         // DON'T DO THIS: this.state.persons[0].name = "Amoses"
-        setPersonsState({
+        this.setState({
             persons: [
-                {name: 'Amoses', age: 24},
+                {name: newName, age: 24},
                 {name: 'Christy', age: 24},
                 {name: 'Andre', age: 29},
             ]
         })
     };
 
+    nameChangeHandler = (event) => {
+        this.setState({
+            persons: [
+                {name: 'Moses', age: 24},
+                {name: event.target.value, age: 24},
+                {name: 'Andre', age: 29},
+            ]
+        })
+    };
+
+  render() {
     return (
       <div className="App">
         <h1>Hi I'm Amoses</h1>
-        <button onClick={switchNameHandler}>Switch Name</button>
-        <Person name={personState.persons[0].name} age={personState.persons[0].age}/>
-        <Person name={personState.persons[1].name} age={personState.persons[1].age}> My hobbies, reading DSM-V</Person>
-        <Person name={personState.persons[2].name} age={personState.persons[2].age}/>
+        <button onClick={() => this.switchNameHandler("Amoses")}>Switch Name</button>
+        <Person
+            name={this.state.persons[0].name}
+            age={this.state.persons[0].age}/>
+        <Person
+            name={this.state.persons[1].name}
+            age={this.state.persons[1].age}
+            click={this.switchNameHandler.bind(this, "Mo")}
+            changed={this.nameChangeHandler}> My hobbies, reading DSM-V</Person>
+        <Person
+            name={this.state.persons[2].name}
+            age={this.state.persons[2].age}/>
       </div>
     );
-};
+  }
+}
 
-export default app;
+export default App;
